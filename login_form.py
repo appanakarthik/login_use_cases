@@ -69,7 +69,7 @@ class amazon_login(TestCase):
         self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-base']/input[@id='ap_password']").clear()
         self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-base']/input[@id='ap_password']").\
             send_keys('appana123')
-        # Assert next is click on continue button to create an account, as this live website we cannot do
+        # Assert next is click on continue button to create an account, as this live website we cannot do the assertion
 
     def test_validate_password(self):
         """Validate password is failing or not when we give less number of characters  """
