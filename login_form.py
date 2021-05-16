@@ -71,7 +71,6 @@ class amazon_login(TestCase):
             send_keys('appana123')
         # Assert next is click on continue button to create an account, as this live website we cannot do,
         # but a trial application can asert by checking whether the user is getting created or not through api
-        # call form the backend
 
     def test_validate_password(self):
         """Validate password is failing or not when we give less number of characters  """
