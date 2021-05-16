@@ -43,7 +43,7 @@ class api_testing(TestCase):
 
         op_res = self.gh_session.get(self.endpoint + '?state=closed')
         json_response = op_res.json()
-        self.assertTrue(json_response[0]['id'] == '645327881',"id is not generating for the open pull request")
+        self.assertTrue(json_response[0]['id'] == '645327881',"id is not returning for the open pull request")
 
     def create_pull_requests(self):
 
