@@ -21,7 +21,7 @@
 # Check whether when we give less number of characters Under 6, box is getting hi lighted and validate the text colour is showing in red
 # Enter an existing email and check whether we are getting a message, email has already been used. Please try other
 
-
+from locator import Locator
 from unittest import TestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -31,6 +31,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 import time
 import os
+
 
 class amazon_login(TestCase):
 
@@ -43,16 +44,15 @@ class amazon_login(TestCase):
     def setUp(self):
         browser = self.browser
         ac = ActionChains(browser)
-        ac.move_to_element(browser.find_element(By.XPATH, "//div[@id='nav-tools']//*[contains(text(), 'Hello, Sign in')]")).perform()
-        browser.find_element(By.XPATH, "//div[@id='nav-flyout-ya-newCust']/a[@class='nav-a']").click()
+        ac.move_to_element(browser.find_element(By.XPATH, Locator.sign_in_button)).perform()
+        browser.find_element(By.XPATH, Locator.click_sign_in_button).click()
 
 
     def test_fill_login_form(self):
 
         """fill the login form and submit the login form and check whether it got submitted success or not """
 
-        self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-base']/input[@name='customerName']")\
-            .send_keys("appana")
+        self.browser.find_element(By.XPATH, Locator.customer_name).send_keys("appana")
         select = Select(self.browser.find_element_by_name('countryCode'))
         select.select_by_visible_text(u'AD +376')
         options = select.options
@@ -61,22 +61,16 @@ class amazon_login(TestCase):
                 select.select_by_index(i)
                 break
         time.sleep(5)
-        self.browser.find_element(By.XPATH,
-                                  "//div[@class='a-fixed-left-grid-col a-col-right']/input[@id='ap_phone_number']")\
-            .send_keys('9959252526')
-        self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-micro']/input[@name='secondaryLoginClaim']")\
-            .send_keys('appanakarthik@gmail.com')
-        self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-base']/input[@id='ap_password']").clear()
-        self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-base']/input[@id='ap_password']").\
-            send_keys('appana123')
-        # Assert next is click on continue button to create an account, as this live website we cannot do,
-        # but a trial application can asert by checking whether the user is getting created or not through api
+        self.browser.find_element(By.XPATH,Locator.customer_phone_number).send_keys('9959252526')
+        self.browser.find_element(By.XPATH,Locator.customer_email).send_keys('appanakarthik@gmail.com')
+        self.browser.find_element(By.XPATH,Locator.customer_pass).clear()
+        self.browser.find_element(By.XPATH, Locator.customer_pass).send_keys('appana123')
+        # Assert next is click on continue button to create an account, as this live website we cannot do the assertion
 
     def test_validate_password(self):
         """Validate password is failing or not when we give less number of characters  """
 
-        self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-base']/input[@name='customerName']").send_keys(
-            "appana")
+        self.browser.find_element(By.XPATH, Locator.customer_name).send_keys("appana")
         select = Select(self.browser.find_element_by_name('countryCode'))
         select.select_by_visible_text(u'AD +376')
         options = select.options
@@ -84,22 +78,17 @@ class amazon_login(TestCase):
             if "IN +91" in val.text:
                 select.select_by_index(i)
                 break
-        self.browser.find_element(By.XPATH, "//div[@class='a-fixed-left-grid-col a-col-right']/input[@id='ap_phone_number']")\
-            .send_keys('9959123456')
-        self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-micro']/input[@name='secondaryLoginClaim']")\
-            .send_keys(
-            'aaaaaa@gmail.com')
-        self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-base']/input[@id='ap_password']").clear()
-        self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-base']/input[@id='ap_password']").send_keys(
-            'appa')
-        self.browser.find_element(By.XPATH, "//span[@class='a-button-inner']/input[@id='continue']").click()
-        self.assertTrue(self.browser.find_element(By.XPATH, "//div[@id='auth-password-invalid-password-alert']"),
+        self.browser.find_element(By.XPATH, Locator.customer_phone_number).send_keys('9959123456')
+        self.browser.find_element(By.XPATH, Locator.customer_email).send_keys('aaaaaa@gmail.com')
+        self.browser.find_element(By.XPATH, Locator.customer_pass).clear()
+        self.browser.find_element(By.XPATH, Locator.customer_pass).send_keys('appa')
+        self.browser.find_element(By.XPATH, Locator.click_continue).click()
+        self.assertTrue(self.browser.find_element(By.XPATH, Locator.invalid_password),
                         "This test case is failing because of less number of characters in the password field")
 
   def test_valdiate_email(self):
       """Validate email id if it is an existing email then check whether it is throwing an error or not """
-      self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-base']/input[@name='customerName']").send_keys(
-          "appana")
+      self.browser.find_element(By.XPATH, Locator.customer_name).send_keys("appana")
       select = Select(self.browser.find_element_by_name('countryCode'))
       select.select_by_visible_text(u'AD +376')
       options = select.options
@@ -107,28 +96,22 @@ class amazon_login(TestCase):
           if "IN +91" in val.text:
               select.select_by_index(i)
               break
+      self.browser.find_element(By.XPATH,Locator.customer_phone_number).send_keys('9959123456')
       self.browser.find_element(By.XPATH,
-                           "//div[@class='a-fixed-left-grid-col a-col-right']/input[@id='ap_phone_number']").send_keys(
-          '9959123456')
-      self.browser.find_element(By.XPATH,
-                           "//div[@class='a-row a-spacing-micro']/input[@name='secondaryLoginClaim']").send_keys(
-          'appanakarthik@gmail.com')
-      self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-base']/input[@id='ap_password']").clear()
-      self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-base']/input[@id='ap_password']").send_keys(
-          'appana123')
-      self.browser.find_element(By.XPATH, "//span[@class='a-button-inner']/input[@id='continue']").click()
-      self.assertTrue(self.browser.find_element(By.XPATH, "//span[@class='a-list-item']").text, "text is not coming")
+                           Locator.customer_email).send_keys('appanakarthik@gmail.com')
+      self.browser.find_element(By.XPATH, Locator.customer_pass).clear()
+      self.browser.find_element(By.XPATH, Locator.customer_pass).send_keys('appana123')
+      self.browser.find_element(By.XPATH, Locator.click_continue).click()
+      self.assertTrue(self.browser.find_element(By.XPATH, Locator.text_finder).text != [], "text is not coming")
 
 
     def test_placeholder_available(self):
-        self.assertTrue(self.browser.find_element(By.XPATH,
-                             "//div[@class='a-row a-spacing-base']/input[@placeholder='At least 6 characters']"),
+        self.assertTrue(self.browser.find_element(By.XPATH,Locator.text_placeholder),
                         "placeholder is not present in password box")
 
     def test_without_email(self):
         self.browser.find_element(By.XPATH,
-                                  "//div[@class='a-row a-spacing-base']/input[@name='customerName']").send_keys(
-            "appana")
+                                  Locator.customer_name).send_keys("appana")
         select = Select(self.browser.find_element_by_name('countryCode'))
         select.select_by_visible_text(u'AD +376')
         options = select.options
@@ -137,19 +120,15 @@ class amazon_login(TestCase):
                 select.select_by_index(i)
                 break
         self.browser.find_element(By.XPATH,
-                                  "//div[@class='a-fixed-left-grid-col a-col-right']/input[@id='ap_phone_number']") \
-            .send_keys('9959123456')
-        self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-base']/input[@id='ap_password']").clear()
-        self.browser.find_element(By.XPATH, "//div[@class='a-row a-spacing-base']/input[@id='ap_password']").send_keys(
-            'appa')
-        self.browser.find_element(By.XPATH, "//span[@class='a-button-inner']/input[@id='continue']").click()
+                                 Locator.customer_phone_number) .send_keys('9959123456')
+        self.browser.find_element(By.XPATH, Locator.customer_pass).clear()
+        self.browser.find_element(By.XPATH, Locator.customer_pass).send_keys('appa')
+        self.browser.find_element(By.XPATH, Locator.click_continue).click()
         #as this is a live website not adding any assertions
         self.assertTrue('Xpath',"Completed successfully")
 
     def test_valdiate_text_message(self):
-        self.assertTrue(self.browser.find_element(By.XPATH,"//div[@class ='auth-require-fields-match-group']"
-                                                           "/div[@ class ='a-row a-spacing-base']/div[1]"
-                                                           "//div[@ class ='a-alert-content']"), "alert message is not "
+        self.assertTrue(self.browser.find_element(By.XPATH,Locator.check_text_validation), "alert message is not "
                                                                                                  "displaying")
 
     def teardown(self):

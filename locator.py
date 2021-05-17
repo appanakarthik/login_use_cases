@@ -1,0 +1,15 @@
+class Locator():
+    sign_in_button = "//div[@id='nav-tools']//*[contains(text(), 'Hello, Sign in')]"
+    click_sign_in_button = "//div[@id='nav-flyout-ya-newCust']/a[@class='nav-a']"
+    customer_name = "//div[@class='a-row a-spacing-base']/input[@name='customerName']"
+    customer_phone_number =  "//div[@class='a-fixed-left-grid-col a-col-right']/input[@id='ap_phone_number']"
+    customer_email = "//div[@class='a-row a-spacing-micro']/input[@name='secondaryLoginClaim']"
+    customer_pass = "//div[@class='a-row a-spacing-base']/input[@id='ap_password']"
+    click_continue = "//span[@class='a-button-inner']/input[@id='continue']"
+    invalid_password = "//div[@id='auth-password-invalid-password-alert']"
+    text_finder = "//span[@class='a-list-item']"
+    text_placeholder = "//div[@class='a-row a-spacing-base']/input[@placeholder='At least 6 characters']"
+    check_text_validation = "//div[@class ='auth-require-fields-match-group']"
+                                                           "/div[@ class ='a-row a-spacing-base']/div[1]"
+                                                           "//div[@ class ='a-alert-content']"
+
